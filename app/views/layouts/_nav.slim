@@ -1,0 +1,24 @@
+  nav.navbar.navbar-expand-lg.navbar.navbar-dark.bg-dark
+    = link_to root_path, class: 'navbar-brand' do
+      => icon 'user-plus', type: 'far'
+      | RSVP
+    button.navbar-toggler[type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation"]
+      span.navbar-toggler-icon
+    #navbarText.collapse.navbar-collapse
+      ul.navbar-nav.mr-auto
+        li.nav-item.font-weight-bold class=("active" if current_page?(page_name: 'details'))
+          = link_to details_path, class: 'nav-link' do
+            => icon 'info', type: 'far'
+            | Wedding Info
+        - if admin_signed_in?
+          li.nav-item.font-weight-bold class=("active" if current_page?(admins_admins_path))
+            = link_to 'Admins', admins_admins_path, class: 'nav-link'
+          li.nav-item.font-weight-bold class=("active" if current_page?(admins_rsvp_guests_path))
+            = link_to 'RSVP Guests', admins_rsvp_guests_path, class: 'nav-link'
+      - if admin_signed_in?
+        ul.nav
+          li.nav-item.dropdown
+            a#navbarDropdown.nav-link.dropdown-toggle.text-white data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
+              = current_admin.email
+            .dropdown-menu
+              = link_to 'Sign Out', destroy_admin_session_path, class: 'dropdown-item', method: :delete

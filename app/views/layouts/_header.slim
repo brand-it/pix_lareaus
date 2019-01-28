@@ -1,0 +1,9 @@
+meta name="viewport" content="width=device-width, initial-scale=1"
+= stylesheet_link_tag "application", media: 'all'
+// Request sentry before application
+= javascript_include_tag 'https://browser.sentry-cdn.com/4.3.0/bundle.min.js', crossorigin: 'anonymous'
+= javascript_include_tag 'application'
+= javascript_pack_tag 'application'
+= javascript_include_tag 'https://pro.fontawesome.com/releases/v5.6.1/js/all.js', defer: nil, integrity: 'sha384-ncMWtRMSOo+cLmfdaa6vmMGzBJKysBDF9tq5YK1MAnAjcyipdW2vgTS1jOntY4fs', crossorigin: 'anonymous'
+
+= csrf_meta_tag
