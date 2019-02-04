@@ -52,6 +52,3 @@ Style/ZeroLengthPredicate:
   Exclude:
     - db/data/*
 
-Metrics/AbcSize:
-  Exclude:
-    - db/data/*

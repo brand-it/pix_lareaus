@@ -3,14 +3,14 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.6.0'
+ruby '2.6.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.2'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+gem 'sqlite3', '~> 1.3.6'
 # Use Puma as the app server
-gem 'puma', '~> 3.11'
+gem 'puma', '~> 3.12'
 # Use SCSS for stylesheets
 # gem 'sass-rails', '~> 5.0'
 gem 'sassc-rails'
@@ -20,11 +20,11 @@ gem 'uglifier', '>= 1.3.0'
 # gem 'mini_racer', platforms: :ruby
 
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.2'
+# gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.5'
+gem 'jbuilder', '~> 2.8'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
@@ -37,21 +37,20 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.1.0', require: false
+gem 'bootsnap', '>= 1.3.2', require: false
 
-gem 'beautiful-log'
+gem 'beautiful-log', '~> 0.2'
 gem 'colorize', '~> 0.8.1'
-gem 'devise'
+gem 'devise', '~> 4.2'
 gem 'gravatar_image_tag'
-gem 'jquery-rails'
-gem 'react-rails'
-gem 'responders'
-gem 'sentry-raven'
-gem 'slack-ruby-client'
-gem 'slim'
+gem 'jquery-rails', '~> 4.3'
+gem 'react-rails', '~> 2.4'
+gem 'responders', '~> 2.4'
+# gem 'slack-ruby-client', '~> 0.13'
+gem 'slim', '~> 4.0.1'
 gem 'timber', '~> 2.3'
-gem 'webpacker'
-gem 'wisper', '2.0.0'
+gem 'webpacker', '~> 3.5'
+gem 'wisper', '~> 2.0'
 
 group :development, :test do
   gem 'vcr'
@@ -60,7 +59,7 @@ group :development, :test do
   gem 'pry-byebug', platforms: %i[mri mingw x64_mingw]
   # Adds support for Capybara system testing and selenium driver
   gem 'awesome_print'
-  gem 'rspec-rails', '~> 3.8'
+  gem 'rspec-rails'
   gem 'rspec_junit_formatter' # for circleci
   gem 'rubocop', require: false
   gem 'rubocop-rspec'
@@ -84,7 +83,7 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'better_errors'
   gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'spring-watcher-listen'
 end
 
 group :test do

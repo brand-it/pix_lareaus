@@ -1,0 +1,77 @@
+# Ruby CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-ruby/ for more details
+#
+version: 2
+
+environment: &environment
+  RAILS_ENV: test
+  NODE_ENV: test
+  DB_HOST: 127.0.0.1
+
+defaults: &defaults
+  working_directory: ~/repo
+  environment:
+    <<: *environment
+  docker:
+    - image: circleci/ruby:2.6.1-node-browsers
+jobs:
+  rspec:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore Rails Gems
+          keys:
+          - v1-dependencies-{{ checksum "Gemfile.lock" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+      - run:
+          name: install dependencies
+          command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
+      - save_cache:
+          name: Save Rails Gems
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - restore_cache:
+          name: Restore YARN Packages
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - yarn
+      - run:
+          name: Installing Yarn
+          command: yarn install --cache-folder tmp/yarn
+      - save_cache:
+          name: Save YARN Packages
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - tmp/yarn
+            - node_modules
+      - run: bundle exec rake db:create
+      - run: bundle exec rake db:schema:load
+      - run: bundle exec rails webpacker:compile
+      - run:
+          name: Rspec Tests
+          command: |
+            mkdir /tmp/test-results
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
+
+            bundle exec rspec --format progress \
+                            --format RspecJunitFormatter \
+                            --out /tmp/test-results/rspec.xml \
+                            --format progress \
+                            $TEST_FILES
+            # collect reports
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
+
+workflows:
+  version: 2
+  code_change:
+    jobs:
+      - rspec
